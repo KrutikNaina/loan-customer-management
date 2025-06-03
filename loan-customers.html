@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Loan Customers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add SheetJS library for Excel export -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background-color: #343a40;
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,.75);
+        }
+        .sidebar .nav-link:hover {
+            color: white;
+        }
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: #007bff;
+        }
+        .main-content {
+            padding: 20px;
+        }
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .status-disbursed {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        .status-completed {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .btn-export {
+            background-color: #28a745;
+            color: white;
+            margin-right: 10px;
+        }
+        .btn-export:hover {
+            background-color: #218838;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar p-0">
+                <div class="p-3">
+                    <h4>Admin Panel</h4>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.php">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="add-customer.html">Add Customer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="loan-customers.php">Loan Customers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Logout</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10 main-content">
+                <h2>Loan Customers</h2>
+                <div class="table-container">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="input-group" style="width: 300px;">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <button class="btn btn-outline-secondary" type="button">Search</button>
+                        </div>
+                        <div>
+                            <button id="exportExcel" class="btn btn-export">Export to Excel</button>
+                            <a href="add-loan-customer.html" class="btn btn-success">Add New</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="loanCustomersTable" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Customer Name</th>
+                                    <th>Mo. No</th>
+                                    <th>Reference</th>
+                                    <th>Handling</th>
+                                    <th>Types</th>
+                                    <th>Product</th>
+                                    <th>Bank</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Process</th>
+                                    <th>Remarks</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>John Doe</td>
+                                    <td>9876543210</td>
+                                    <td>Michael Smith</td>
+                                    <td>Agent 1</td>
+                                    <td>Personal</td>
+                                    <td>Home Loan</td>
+                                    <td>ABC Bank</td>
+                                    <td>$50,000</td>
+                                    <td>2023-05-15</td>
+                                    <td><span class="status-badge status-approved">Approved</span></td>
+                                    <td>Documents verified</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Edit</button>
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Jane Smith</td>
+                                    <td>8765432109</td>
+                                    <td>Robert Johnson</td>
+                                    <td>Agent 2</td>
+                                    <td>Business</td>
+                                    <td>Business Loan</td>
+                                    <td>XYZ Bank</td>
+                                    <td>$75,000</td>
+                                    <td>2023-05-18</td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                    <td>Waiting for documents</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Edit</button>
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>David Wilson</td>
+                                    <td>7654321098</td>
+                                    <td>Sarah Williams</td>
+                                    <td>Agent 3</td>
+                                    <td>Personal</td>
+                                    <td>Car Loan</td>
+                                    <td>DEF Bank</td>
+                                    <td>$25,000</td>
+                                    <td>2023-05-20</td>
+                                    <td><span class="status-badge status-rejected">Rejected</span></td>
+                                    <td>Credit score low</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Edit</button>
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Emily Brown</td>
+                                    <td>6543210987</td>
+                                    <td>Thomas Davis</td>
+                                    <td>Agent 1</td>
+                                    <td>Education</td>
+                                    <td>Education Loan</td>
+                                    <td>GHI Bank</td>
+                                    <td>$30,000</td>
+                                    <td>2023-05-22</td>
+                                    <td><span class="status-badge status-disbursed">Disbursed</span></td>
+                                    <td>Processing fee paid</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Edit</button>
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Michael Johnson</td>
+                                    <td>5432109876</td>
+                                    <td>Jennifer Miller</td>
+                                    <td>Agent 2</td>
+                                    <td>Personal</td>
+                                    <td>Personal Loan</td>
+                                    <td>JKL Bank</td>
+                                    <td>$15,000</td>
+                                    <td>2023-05-25</td>
+                                    <td><span class="status-badge status-completed">Completed</span></td>
+                                    <td>Verification in progress</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Edit</button>
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Excel Export Functionality
+        document.getElementById('exportExcel').addEventListener('click', function() {
+            // Get the table element
+            const table = document.getElementById('loanCustomersTable');
+            
+            // Create a new workbook
+            const wb = XLSX.utils.book_new();
+            
+            // Clone the table to manipulate it
+            const tableClone = table.cloneNode(true);
+            
+            // Remove action buttons from the clone
+            const actionCells = tableClone.querySelectorAll('td:last-child, th:last-child');
+            actionCells.forEach(cell => cell.remove());
+            
+            // Convert the table to a worksheet
+            const ws = XLSX.utils.table_to_sheet(tableClone);
+            
+            // Add the worksheet to the workbook
+            XLSX.utils.book_append_sheet(wb, ws, "Loan Customers");
+            
+            // Generate the Excel file and download it
+            const fileName = 'Loan_Customers_' + new Date().toISOString().slice(0, 10) + '.xlsx';
+            XLSX.writeFile(wb, fileName);
+        });
+
+        // Optional: Add search functionality
+        document.querySelector('.btn-outline-secondary').addEventListener('click', function() {
+            const searchText = document.querySelector('.form-control').value.toLowerCase();
+            const rows = document.querySelectorAll('#loanCustomersTable tbody tr');
+            
+            rows.forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                row.style.display = rowText.includes(searchText) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

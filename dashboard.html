@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background-color: #343a40;
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,.75);
+        }
+        .sidebar .nav-link:hover {
+            color: white;
+        }
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: #007bff;
+        }
+        .main-content {
+            padding: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar p-0">
+                <div class="p-3">
+                    <h4>Admin Panel</h4>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="dashboard.php">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="add-customer.html">Add Customer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="loan-customers.php">Loan Customers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Logout</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10 main-content">
+                <h2>Dashboard</h2>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card text-white bg-primary">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Customers</h5>
+                                <p class="card-text display-4">124</p>
+                                <a href="#" class="text-white">View details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-white bg-success">
+                            <div class="card-body">
+                                <h5 class="card-title">Approved Loans</h5>
+                                <p class="card-text display-4">78</p>
+                                <a href="#" class="text-white">View details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-white bg-warning">
+                            <div class="card-body">
+                                <h5 class="card-title">Pending Loans</h5>
+                                <p class="card-text display-4">32</p>
+                                <a href="#" class="text-white">View details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-white bg-danger">
+                            <div class="card-body">
+                                <h5 class="card-title">Rejected Loans</h5>
+                                <p class="card-text display-4">14</p>
+                                <a href="#" class="text-white">View details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Recent Customers
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Contact</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>John Doe</td>
+                                            <td>9876543210</td>
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jane Smith</td>
+                                            <td>8765432109</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>David Wilson</td>
+                                            <td>7654321098</td>
+                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Emily Brown</td>
+                                            <td>6543210987</td>
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Loan Status
+                            </div>
+                            <div class="card-body">
+                                <canvas id="loanChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Simple chart for demonstration
+        const ctx = document.getElementById('loanChart').getContext('2d');
+        const loanChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Approved', 'Pending', 'Rejected'],
+                datasets: [{
+                    data: [78, 32, 14],
+                    backgroundColor: [
+                        '#28a745',
+                        '#ffc107',
+                        '#dc3545'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+</body>
+</html>
