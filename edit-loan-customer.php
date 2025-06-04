@@ -17,8 +17,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
-
-
 // Get customer ID
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
@@ -40,7 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssssssssssi", $customer_name, $mobile_no, $reference, $handling, $types, $product, $bank, $amount, $date, $process, $remarks, $id);
     $stmt->execute();
 
-    header("Location: loan-customers.php");
+    // Redirect with success message
+    header("Location: loan-customers.php?msg=updated");
     exit();
 } else {
     // Fetch current data
@@ -76,20 +75,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <div class="col-md-2 sidebar p-3">
-            <h4>Admin Panel</h4>
+        <nav class="col-md-2 d-none d-md-block sidebar bg-dark text-white p-0">
+            <div class="p-3">
+                <h4>Admin Panel</h4>
+            </div>
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="add-customer.html">Add Customer</a></li>
-                <li class="nav-item"><a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a></li>
-                <li class="nav-item"><a class="nav-link active" href="#">Loan Customers</a></li>
-                <li class="nav-item"><a class="nav-link" href="add-employee.php">Add Employee Customers</a></li>
-                <li class="nav-item"><a class="nav-link" href="list_employees.php">List Employee</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Reports</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
-                <li class="nav-item"><a class="nav-link" href="login.html">Logout</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard.php">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="add-customer.html">Add Customer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="loan-customers.php">Loan Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="add-employee.php">Add Employee Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="list_employees.php">List Employee</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="login.php">Logout</a>
+                </li>
             </ul>
-        </div>
+        </nav>
 
         <!-- Main content -->
         <div class="col-md-10 p-4">
@@ -98,47 +111,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label>Customer Name</label>
-                        <input type="text" name="customer_name" class="form-control" value="<?php echo $data['customer_name']; ?>" required>
+                        <input type="text" name="customer_name" class="form-control" value="<?php echo htmlspecialchars($data['customer_name']); ?>" required>
                     </div>
                     <div class="col-md-6">
                         <label>Mobile No</label>
-                        <input type="text" name="mobile_no" class="form-control" value="<?php echo $data['mobile_no']; ?>" required>
+                        <input type="text" name="mobile_no" class="form-control" value="<?php echo htmlspecialchars($data['mobile_no']); ?>" required>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label>Reference</label>
-                        <input type="text" name="reference" class="form-control" value="<?php echo $data['reference']; ?>">
+                        <input type="text" name="reference" class="form-control" value="<?php echo htmlspecialchars($data['reference']); ?>">
                     </div>
                     <div class="col-md-6">
                         <label>Handling</label>
-                        <input type="text" name="handling" class="form-control" value="<?php echo $data['handling']; ?>">
+                        <input type="text" name="handling" class="form-control" value="<?php echo htmlspecialchars($data['handling']); ?>">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label>Types</label>
-                        <input type="text" name="types" class="form-control" value="<?php echo $data['types']; ?>">
+                        <input type="text" name="types" class="form-control" value="<?php echo htmlspecialchars($data['types']); ?>">
                     </div>
                     <div class="col-md-6">
                         <label>Product</label>
-                        <input type="text" name="product" class="form-control" value="<?php echo $data['product']; ?>">
+                        <input type="text" name="product" class="form-control" value="<?php echo htmlspecialchars($data['product']); ?>">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label>Bank</label>
-                        <input type="text" name="bank" class="form-control" value="<?php echo $data['bank']; ?>">
+                        <input type="text" name="bank" class="form-control" value="<?php echo htmlspecialchars($data['bank']); ?>">
                     </div>
                     <div class="col-md-6">
                         <label>Amount</label>
-                        <input type="number" name="amount" class="form-control" value="<?php echo $data['amount']; ?>">
+                        <input type="number" name="amount" class="form-control" value="<?php echo htmlspecialchars($data['amount']); ?>">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label>Date</label>
-                        <input type="date" name="date" class="form-control" value="<?php echo $data['date']; ?>">
+                        <input type="date" name="date" class="form-control" value="<?php echo htmlspecialchars($data['date']); ?>">
                     </div>
                     <div class="col-md-6">
                         <label>Process</label>
@@ -155,7 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="mb-3">
                     <label>Remarks</label>
-                    <textarea name="remarks" class="form-control"><?php echo $data['remarks']; ?></textarea>
+                    <textarea name="remarks" class="form-control"><?php echo htmlspecialchars($data['remarks']); ?></textarea>
                 </div>
                 <button type="submit" class="btn btn-success">Update</button>
                 <a href="loan-customers.php" class="btn btn-secondary">Cancel</a>
@@ -165,4 +178,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 </body>
 </html>
-                                

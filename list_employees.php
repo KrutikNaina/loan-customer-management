@@ -56,7 +56,7 @@ $result = $conn->query("SELECT id, first_name, last_name, email, phone, username
                     <a class="nav-link" href="dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="add-customer.html">Add Customer</a>
+                    <a class="nav-link" href="add-customer.html">Add Customer</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a>
@@ -68,16 +68,10 @@ $result = $conn->query("SELECT id, first_name, last_name, email, phone, username
                     <a class="nav-link" href="add-employee.php">Add Employee Customers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="list_employees.php">List Employee</a>
+                    <a class="nav-link active" href="list_employees.php">List Employee</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Reports</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Settings</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login.html">Logout</a>
+                    <a class="nav-link" href="login.php">Logout</a>
                 </li>
             </ul>
         </nav>
@@ -90,7 +84,7 @@ $result = $conn->query("SELECT id, first_name, last_name, email, phone, username
                 <div class="alert alert-success"><?php echo htmlspecialchars($msg); ?></div>
             <?php endif; ?>
 
-            <a href="add_employee.php" class="btn btn-primary mb-3">Add New Employee</a>
+            <a href="add-employee.php" class="btn btn-primary mb-3">Add New Employee</a>
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">

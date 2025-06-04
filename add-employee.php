@@ -88,19 +88,33 @@ if (isset($_POST['add_employee'])) {
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
-        <nav class="col-md-2 sidebar p-0">
-            <h4 class="text-white">Admin Panel</h4>
+         <!-- Sidebar -->
+         <nav class="col-md-2 d-none d-md-block sidebar bg-dark text-white p-0">
+            <div class="p-3">
+                <h4>Admin Panel</h4>
+            </div>
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="add-customer.html">Add Customer</a></li>
-                <li class="nav-item"><a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a></li>
-                <li class="nav-item"><a class="nav-link active" href="add-employee.php">Add Employee Customers</a></li>
-                <li class="nav-item"><a class="nav-link" href="list_employees.php">List Employee</a></li>
-                <li class="nav-item"><a class="nav-link" href="loan-customers.php">Loan Customers</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Reports</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
-                <li class="nav-item"><a class="nav-link" href="login.php">Logout</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard.php">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="add-customer.html">Add Customer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="loan-customers.php">Loan Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="add-employee.php">Add Employee Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="list_employees.php">List Employee</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="login.php">Logout</a>
+                </li>
             </ul>
         </nav>
 
@@ -147,7 +161,7 @@ if (isset($_POST['add_employee'])) {
                     </div>
 
                     <div class="d-flex justify-content-start">
-                        <button type="submit" name="add_employee" class="btn btn-success me-2">Add Employee</button>
+                        <button type="submit" name="add_employee" class="btn btn-primary me-2">Add Employee</button>
                         <a href="dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
                     </div>
                 </form>

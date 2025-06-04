@@ -53,13 +53,12 @@ if (isset($_POST['update_employee'])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Edit Employee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Important for responsiveness -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .sidebar {
             min-height: 100vh;
@@ -73,9 +72,18 @@ if (isset($_POST['update_employee'])) {
             color: white;
             background-color: #007bff;
         }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                min-height: auto;
+            }
+        }
     </style>
 </head>
 <body>
+<div class="container-fluid">
+    <div class="row">
        <!-- Sidebar -->
        <nav class="col-md-2 d-none d-md-block sidebar bg-dark text-white p-0">
             <div class="p-3">
@@ -86,7 +94,7 @@ if (isset($_POST['update_employee'])) {
                     <a class="nav-link" href="dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="add-customer.html">Add Customer</a>
+                    <a class="nav-link" href="add-customer.html">Add Customer</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a>
@@ -101,63 +109,62 @@ if (isset($_POST['update_employee'])) {
                     <a class="nav-link" href="list_employees.php">List Employee</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Reports</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Settings</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login.html">Logout</a>
+                    <a class="nav-link" href="login.php">Logout</a>
                 </li>
             </ul>
         </nav>
 
-<div class="container mt-5" style="max-width: 700px;">
-    <h2>Edit Employee</h2>
+        <!-- Main Content -->
+        <main class="col-md-10 ms-sm-auto px-4 py-4">
+            <div class="container" style="max-width: 800px;">
+                <h2>Edit Employee</h2>
 
-    <?php if ($error): ?>
-        <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
-    <?php endif; ?>
+                <?php if ($error): ?>
+                    <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
+                <?php endif; ?>
 
-    <form method="POST" action="">
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="first_name" class="form-label">First Name</label>
-                <input type="text" name="first_name" class="form-control" value="<?php echo htmlspecialchars($employee['first_name']); ?>" required>
-            </div>
-            <div class="col-md-6">
-                <label for="last_name" class="form-label">Last Name</label>
-                <input type="text" name="last_name" class="form-control" value="<?php echo htmlspecialchars($employee['last_name']); ?>" required>
-            </div>
-        </div>
+                <form method="POST" action="">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">First Name</label>
+                            <input type="text" name="first_name" class="form-control" value="<?php echo htmlspecialchars($employee['first_name']); ?>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" name="last_name" class="form-control" value="<?php echo htmlspecialchars($employee['last_name']); ?>" required>
+                        </div>
+                    </div>
 
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($employee['email']); ?>" required>
-            </div>
-            <div class="col-md-6">
-                <label for="phone" class="form-label">Phone</label>
-                <input type="text" name="phone" class="form-control" value="<?php echo htmlspecialchars($employee['phone']); ?>" required>
-            </div>
-        </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($employee['email']); ?>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control" value="<?php echo htmlspecialchars($employee['phone']); ?>" required>
+                        </div>
+                    </div>
 
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" name="username" class="form-control" value="<?php echo htmlspecialchars($employee['username']); ?>" required>
-            </div>
-            <div class="col-md-6">
-                <label for="password" class="form-label">Password (leave blank to keep unchanged)</label>
-                <input type="password" name="password" class="form-control" placeholder="New password">
-            </div>
-        </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control" value="<?php echo htmlspecialchars($employee['username']); ?>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Password (leave blank to keep unchanged)</label>
+                            <input type="password" name="password" class="form-control" placeholder="New password">
+                        </div>
+                    </div>
 
-        <div class="d-flex justify-content-start">
-            <button type="submit" name="update_employee" class="btn btn-secondary me-2">Update Employee</button>
-            <a href="list_employees.php" class="btn btn-secondary">Cancel</a>
-        </div>
-    </form>
+                    <div class="d-flex justify-content-start">
+                        <button type="submit" name="update_employee" class="btn btn-primary me-2">Update Employee</button>
+                        <a href="list_employees.php" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
 </div>
 </body>
 </html>

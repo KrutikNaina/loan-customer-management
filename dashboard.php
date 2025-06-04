@@ -75,7 +75,8 @@ $recentCustomers = $conn->query("SELECT customer_name, mobile_no, process FROM l
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2 sidebar p-0">
+         <!-- Sidebar -->
+         <nav class="col-md-2 d-none d-md-block sidebar bg-dark text-white p-0">
             <div class="p-3">
                 <h4>Admin Panel</h4>
             </div>
@@ -99,16 +100,10 @@ $recentCustomers = $conn->query("SELECT customer_name, mobile_no, process FROM l
                     <a class="nav-link" href="list_employees.php">List Employee</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Reports</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Settings</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="login.php">Logout</a>
                 </li>
             </ul>
-        </div>
+        </nav>
         <div class="col-md-10 main-content">
             <h2>Dashboard</h2>
             <div class="row">
