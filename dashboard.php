@@ -1,9 +1,23 @@
 <?php
-// Database connection
-$host = "localhost";
+$servername = "localhost";
 $username = "root";
 $password = "";
-$database = "admin_panel"; // Replace with your DB name
+$database = "admin_panel";
+
+session_start();
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login.php");
+    exit;
+}
+
+
+$conn = new mysqli($servername, $username, $password, $database);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Now you can use $conn->query() safely
+
 
 $conn = new mysqli("localhost", "root", "", "admin_panel");
 if ($conn->connect_error) {
@@ -79,13 +93,19 @@ $recentCustomers = $conn->query("SELECT customer_name, mobile_no, process FROM l
                     <a class="nav-link" href="loan-customers.php">Loan Customers</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="add-employee.php">Add Employee Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="list_employees.php">List Employee</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#">Reports</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Settings</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="login.html">Logout</a>
+                    <a class="nav-link" href="login.php">Logout</a>
                 </li>
             </ul>
         </div>

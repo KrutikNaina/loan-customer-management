@@ -1,16 +1,25 @@
 <?php
-// Database connection (update credentials accordingly)
 $servername = "localhost";
 $username = "root";
 $password = "";
 $database = "admin_panel";
 
 $conn = new mysqli($servername, $username, $password, $database);
-
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+
+session_start();
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login.php");
+    exit;
+}
+
+
+// Now you can use $conn->query() safely
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
     $stmt = $conn->prepare("DELETE FROM loan_customers WHERE id = ?");
@@ -54,6 +63,7 @@ if (!empty($search_query)) {
     $sql = "SELECT * FROM loan_customers ORDER BY id DESC LIMIT $start_from, $results_per_page";
     $result = $conn->query($sql);
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -106,6 +116,8 @@ if (!empty($search_query)) {
                 <li class="nav-item"><a class="nav-link" href="add-customer.html">Add Customer</a></li>
                 <li class="nav-item"><a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a></li>
                 <li class="nav-item"><a class="nav-link active" href="#">Loan Customers</a></li>
+                <li class="nav-item"><a class="nav-link" href="add-employee.php">Add Employee Customers</a></li>
+                <li class="nav-item"><a class="nav-link" href="list_employees.php">List Employee</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Reports</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
                 <li class="nav-item"><a class="nav-link" href="login.html">Logout</a></li>

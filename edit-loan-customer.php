@@ -10,6 +10,15 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+session_start();
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login.php");
+    exit;
+}
+
+
+
 // Get customer ID
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
@@ -74,6 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li class="nav-item"><a class="nav-link" href="add-customer.html">Add Customer</a></li>
                 <li class="nav-item"><a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a></li>
                 <li class="nav-item"><a class="nav-link active" href="#">Loan Customers</a></li>
+                <li class="nav-item"><a class="nav-link" href="add-employee.php">Add Employee Customers</a></li>
+                <li class="nav-item"><a class="nav-link" href="list_employees.php">List Employee</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Reports</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
                 <li class="nav-item"><a class="nav-link" href="login.html">Logout</a></li>
