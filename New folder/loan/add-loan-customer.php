@@ -1,6 +1,12 @@
 <?php
-include 'session.php'; // 🔒 Lock page before anything else
+session_start();
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login.php");
+    exit;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -78,7 +84,13 @@ include 'session.php'; // 🔒 Lock page before anything else
                         <a class="nav-link" href="loan-customers.php">Loan Customers</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="logout.html">Logout</a>
+                        <a class="nav-link" href="#">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Logout</a>
                     </li>
                 </ul>
             </div>

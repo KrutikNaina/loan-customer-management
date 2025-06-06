@@ -1,6 +1,4 @@
 <?php
-include 'session.php'; // 🔒 Lock page before anything else
-
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -11,6 +9,11 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+session_start();
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login.php");
+    exit;
+}
 
 $search_query = isset($_GET['search']) ? trim($_GET['search']) : '';
 
@@ -71,7 +74,7 @@ if (!empty($search_query)) {
                 <li class="nav-item"><a class="nav-link active" href="loan-customers.php">Loan Customers</a></li>
                 <li class="nav-item"><a class="nav-link" href="add-employee.php">Add Employee Customers</a></li>
                 <li class="nav-item"><a class="nav-link" href="list_employees.php">List Employee</a></li>
-                <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+                <li class="nav-item"><a class="nav-link" href="login.php">Logout</a></li>
             </ul>
         </nav>
         <div class="col-md-10 main-content">

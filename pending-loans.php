@@ -1,4 +1,6 @@
 <?php
+include 'session.php'; // 🔒 Lock page before anything else
+
 /* ──────────────────────────────────────────────────────────
    DB connection + admin-only gate
 ────────────────────────────────────────────────────────── */
@@ -75,7 +77,7 @@ $result = $conn->query($sql);
           <li class="nav-item"><a class="nav-link active" href="#">Pending Loans</a></li>
           <li class="nav-item"><a class="nav-link" href="add-employee.php">Add Employee</a></li>
           <li class="nav-item"><a class="nav-link" href="list_employees.php">List Employees</a></li>
-          <li class="nav-item"><a class="nav-link" href="login.php">Logout</a></li>
+          <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
       </ul>
   </nav>
 

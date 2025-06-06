@@ -1,10 +1,11 @@
 <?php
-include 'session.php'; // 🔒 Lock page before anything else
-
+/* ──────────────────────────────────────────────────────────
+   DB connection + admin-only gate
+────────────────────────────────────────────────────────── */
 $servername = "localhost";
-$username = "root";
-$password = "";
-$database = "admin_panel";
+$username   = "root";
+$password   = "";
+$database   = "admin_panel";
 
 $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
@@ -15,19 +16,22 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
+/* ──────────────────────────────────────────────────────────
+   Fetch rows  (only Pending)
+────────────────────────────────────────────────────────── */
 $search_query = isset($_GET['search']) ? trim($_GET['search']) : '';
 
-if ($search_query !== '') {
+if ($search_query !== '') {                     // search mode
     $escaped = $conn->real_escape_string($search_query);
     $sql = "SELECT * FROM loan_customers
-            WHERE process = 'Rejected' AND (
+            WHERE process = 'Pending' AND (
                   customer_name LIKE '%$escaped%'  OR mobile_no  LIKE '%$escaped%'
                OR reference     LIKE '%$escaped%'  OR handling   LIKE '%$escaped%'
                OR types         LIKE '%$escaped%'  OR product    LIKE '%$escaped%'
                OR bank          LIKE '%$escaped%'  OR remarks    LIKE '%$escaped%' )
             ORDER BY id DESC";
-} else {
-    $sql = "SELECT * FROM loan_customers WHERE process = 'Rejected' ORDER BY id DESC";
+} else {                                        // plain list
+    $sql = "SELECT * FROM loan_customers WHERE process = 'Pending' ORDER BY id DESC";
 }
 $result = $conn->query($sql);
 ?>
@@ -36,7 +40,7 @@ $result = $conn->query($sql);
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Admin Panel – Rejected Loans</title>
+<title>Admin Panel – Pending Loans</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -50,9 +54,9 @@ $result = $conn->query($sql);
 .table-container{background:#fff;padding:20px;border-radius:5px;
                  box-shadow:0 0 10px rgba(0,0,0,.1)}
 .status-badge{padding:5px 10px;border-radius:20px;font-size:.8rem;font-weight:500}
-.status-rejected{background:#f8d7da;color:#721c24}
-.btn-export{background:#dc3545;color:#fff;margin-right:10px}
-.btn-export:hover{background:#c82333;color:#fff}
+.status-pending{background:#fff3cd;color:#856404}
+.btn-export{background:#28a745;color:#fff;margin-right:10px}
+.btn-export:hover{background:#218838;color:#fff}
 #loanCustomersTable td,#loanCustomersTable th{font-size:14px;white-space:nowrap}
 </style>
 </head>
@@ -68,17 +72,16 @@ $result = $conn->query($sql);
           <li class="nav-item"><a class="nav-link" href="add-customer.html">Add Customer</a></li>
           <li class="nav-item"><a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a></li>
           <li class="nav-item"><a class="nav-link" href="loan-customers.php">Approved Loans</a></li>
-          <li class="nav-item"><a class="nav-link" href="pending-loans.php">Pending Loans</a></li>
-          <li class="nav-item"><a class="nav-link active" href="#">Rejected Loans</a></li>
+          <li class="nav-item"><a class="nav-link active" href="#">Pending Loans</a></li>
           <li class="nav-item"><a class="nav-link" href="add-employee.php">Add Employee</a></li>
           <li class="nav-item"><a class="nav-link" href="list_employees.php">List Employees</a></li>
-          <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.php">Logout</a></li>
       </ul>
   </nav>
 
   <!-- Main -->
   <div class="col-md-10 main-content">
-    <h2>Rejected Loan Customers</h2>
+    <h2>Pending Loan Customers</h2>
     <div class="table-container">
 
       <!-- Top bar -->
@@ -90,7 +93,7 @@ $result = $conn->query($sql);
           </div>
           <div>
               <button id="exportExcel" class="btn btn-export">Export to Excel</button>
-              <a href="add-loan-customer.html" class="btn btn-danger">Add New</a>
+              <a href="add-loan-customer.html" class="btn btn-success">Add New</a>
           </div>
       </div>
 
@@ -126,32 +129,35 @@ $result = $conn->query($sql);
         </td>
         <td><?= htmlspecialchars($row['remarks']) ?></td>
         <td>
-    <a href="edit-loan-customer.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-primary">Edit</a>
-    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $row['id'] ?>">Delete</button>
+            <?php if (strtolower($row['process']) == 'rejected'): ?>
+                <a href="view-loan-customer.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-danger">View Details</a>
+            <?php else: ?>
+                <a href="edit-loan-customer.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-primary">Edit</a>
+                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $row['id'] ?>">Delete</button>
 
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal<?= $row['id'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?= $row['id'] ?>" aria-hidden="true">
-        <div class="modal-dialog">
-            <form method="POST" action="delete-loan-customer.php">
-                <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel<?= $row['id'] ?>">Confirm Delete</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to delete <strong><?= htmlspecialchars($row['customer_name']) ?></strong>?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade" id="deleteModal<?= $row['id'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?= $row['id'] ?>" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form method="POST" action="delete-loan-customer.php">
+                            <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel<?= $row['id'] ?>">Confirm Delete</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete <strong><?= htmlspecialchars($row['customer_name']) ?></strong>?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </form>
-        </div>
-    </div>
-</td>
-
+            <?php endif; ?>
+        </td>
     </tr>
 <?php endwhile; else: ?>
     <tr><td colspan="13" class="text-center">No data found</td></tr>
@@ -160,22 +166,25 @@ $result = $conn->query($sql);
 
         </table>
       </div>
-    </div>
-  </div>
- </div>
-</div>
+    </div><!-- /.table-container -->
+  </div><!-- /.main-content -->
+ </div><!-- /.row -->
+</div><!-- /.container-fluid -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
+// Excel export
 document.getElementById('exportExcel').addEventListener('click', () => {
     const table = document.getElementById('loanCustomersTable');
     const wb = XLSX.utils.book_new();
     const clone = table.cloneNode(true);
     clone.querySelectorAll('td:last-child,th:last-child').forEach(c=>c.remove());
-    XLSX.utils.book_append_sheet(wb,XLSX.utils.table_to_sheet(clone),"Rejected Loans");
-    XLSX.writeFile(wb,'Rejected_Loans_'+new Date().toISOString().slice(0,10)+'.xlsx');
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.table_to_sheet(clone),"Pending Loans");
+    XLSX.writeFile(wb,'Pending_Loans_'+new Date().toISOString().slice(0,10)+'.xlsx');
 });
 
+// search
 document.getElementById('searchBtn').addEventListener('click', ()=>{
     const q=document.getElementById('searchInput').value.toLowerCase();
     document.querySelectorAll('#loanCustomersTable tbody tr').forEach(r=>{

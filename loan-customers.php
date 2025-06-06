@@ -1,4 +1,6 @@
 <?php
+include 'session.php'; // 🔒 Lock page before anything else
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -132,7 +134,7 @@ if (!empty($search_query)) {
                     <a class="nav-link" href="list_employees.php">List Employee</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="login.php">Logout</a>
+                    <a class="nav-link" href="logout.php">Logout</a>
                 </li>
             </ul>
         </nav>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db.php';
+include '../includes/db.php';
 
 $msg = '';
 
@@ -71,7 +71,7 @@ $result = $conn->query("SELECT id, first_name, last_name, email, phone, username
                     <a class="nav-link active" href="list_employees.php">List Employee</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
+                    <a class="nav-link" href="login.php">Logout</a>
                 </li>
             </ul>
         </nav>

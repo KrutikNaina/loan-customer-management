@@ -1,5 +1,11 @@
 <?php
-include 'session.php'; // 🔒 Lock page before anything else
+session_start();
+include '../includes/db.php';
+
+if (!isset($_GET['id'])) {
+    header("Location: list_employees.php");
+    exit();
+}
 
 $id = intval($_GET['id']);
 $error = '';
@@ -103,7 +109,7 @@ if (isset($_POST['update_employee'])) {
                     <a class="nav-link" href="list_employees.php">List Employee</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
+                    <a class="nav-link" href="login.php">Logout</a>
                 </li>
             </ul>
         </nav>

@@ -1,6 +1,11 @@
 <?php
-include 'session.php'; // 🔒 Lock page before anything else
+session_start();
+include '../includes/db.php';
 
+if (!isset($_SESSION['employee_id']) || $_SESSION['role'] !== 'employee') {
+    header("Location: login.php");
+    exit();
+}
 
 $employee_id = $_SESSION['employee_id'];
 
