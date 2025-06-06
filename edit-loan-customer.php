@@ -48,6 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $data = $stmt->get_result()->fetch_assoc();
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

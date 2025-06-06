@@ -121,7 +121,7 @@ $recentCustomers = $conn->query("SELECT customer_name, mobile_no, process FROM l
                         <div class="card-body">
                             <h5 class="card-title">Approved Loans</h5>
                             <p class="card-text display-4"><?= $approvedLoans ?></p>
-                            <a href="loan-customers.php?process=Approved" class="text-white ">View details</a>
+                            <a href="approve-loan.php" class="text-white ">View details</a>
                         </div>
                     </div>
                 </div>
@@ -130,7 +130,7 @@ $recentCustomers = $conn->query("SELECT customer_name, mobile_no, process FROM l
                         <div class="card-body">
                             <h5 class="card-title">Pending Loans</h5>
                             <p class="card-text display-4"><?= $pendingLoans ?></p>
-                            <a href="#" class="text-white">View details</a>
+                            <a href="pending-loans.php" class="text-white">View details</a>
                         </div>
                     </div>
                 </div>
@@ -139,7 +139,7 @@ $recentCustomers = $conn->query("SELECT customer_name, mobile_no, process FROM l
                         <div class="card-body">
                             <h5 class="card-title">Rejected Loans</h5>
                             <p class="card-text display-4"><?= $rejectedLoans ?></p>
-                            <a href="#" class="text-white">View details</a>
+                            <a href="rejected-loans.php" class="text-white">View details</a>
                         </div>
                     </div>
                 </div>
