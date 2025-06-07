@@ -1,4 +1,5 @@
 <?php
+include 'db.php'; // ✅ Establish DB connection
 include 'session.php'; // 🔒 Lock page before anything else
 
 $id = intval($_GET['id']);

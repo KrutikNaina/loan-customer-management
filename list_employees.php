@@ -59,7 +59,7 @@ $result = $conn->query("SELECT id, first_name, last_name, email, phone, username
                     <a class="nav-link" href="add-customer.html">Add Customer</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a>
+                    <a class="nav-link" href="add-loan-customer.php">Add Loan Customer</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="loan-customers.php">Loan Customers</a>

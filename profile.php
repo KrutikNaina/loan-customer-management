@@ -1,5 +1,7 @@
 <?php
-include 'session.php'; // 🔒 Lock page before anything else
+
+session_start();
+include 'db.php';  // Adjust the path as necessary
 
 
 $employee_id = $_SESSION['employee_id'];
@@ -61,6 +63,34 @@ $loans_result = $stmt->get_result();
         .btn-logout {
             margin-top: 20px;
         }
+        .table-container {
+    overflow-x: auto;
+    width: 100%;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+th, td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+}
+.table th {
+    background-color: #212529;
+    color: white;
+}
+
+.badge {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+
+        
     </style>
 </head>
 <body>
@@ -81,40 +111,43 @@ $loans_result = $stmt->get_result();
         <hr />
         <h4>Loans You Handle</h4>
         <?php if ($loans_result->num_rows > 0): ?>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Loan ID</th>
-                        <th>Customer Name</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($loan = $loans_result->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($loan['id']); ?></td>
-                            <td><?php echo htmlspecialchars($loan['customer_name']); ?></td>
-                            <td><?php echo htmlspecialchars(number_format($loan['amount'], 2)); ?></td>
-                            <td>
-    <?php
-        $status = $loan['process'];
-        $badgeClass = match($status) {
-            'Approved'   => 'bg-success',   // green
-            'Disbursed'  => 'bg-primary',   // blue
-            'Pending'    => 'bg-warning',   // yellow
-            'Rejected'   => 'bg-danger',    // red
-            default      => 'bg-secondary'  // gray
-        };
-    ?>
-    <span class="badge <?php echo $badgeClass; ?>"><?php echo htmlspecialchars($status); ?></span>
-</td>
+            <div class="table-container">
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th style="width: 10%;">Loan ID</th>
+                <th style="width: 35%;">Customer Name</th>
+                <th style="width: 25%;">Amount</th>
+                <th style="width: 30%;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($loan = $loans_result->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($loan['id']); ?></td>
+                    <td><?php echo htmlspecialchars($loan['customer_name']); ?></td>
+                    <td>₹<?php echo htmlspecialchars(number_format($loan['amount'], 2)); ?></td>
+                    <td>
+                        <?php
+                            $status = $loan['process'];
+                            $badgeClass = match($status) {
+                                'Approved'   => 'bg-success',
+                                'Disbursed'  => 'bg-primary',
+                                'Pending'    => 'bg-warning',
+                                'Rejected'   => 'bg-danger',
+                                default      => 'bg-secondary'
+                            };
+                        ?>
+                        <span class="badge <?php echo $badgeClass; ?>">
+                            <?php echo htmlspecialchars($status); ?>
+                        </span>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+</div>
 
-
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
         <?php else: ?>
             <p>No loans found.</p>
         <?php endif; ?>
