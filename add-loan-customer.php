@@ -56,32 +56,21 @@ include 'session.php'; // 🔒 Lock page before anything else
 <body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar Navigation -->
-            <div class="col-md-2 sidebar p-0">
-                <div class="p-3">
-                    <h4>Admin Panel</h4>
-                </div>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="add-customer.html">Add Customer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="add-loan-customer.html">Add Loan Customer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="list_employees.php">List Employee</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="loan-customers.php">Loan Customers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout.html">Logout</a>
-                    </li>
-                </ul>
+            <!-- Sidebar -->
+        <nav class="col-md-2 d-none d-md-block sidebar bg-dark text-white p-0">
+            <div class="p-3">
+                <h4>Admin Panel</h4>
             </div>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="add-customer.php">Add Customer</a></li>
+                <li class="nav-item"><a class="nav-link active" href="add-loan-customer.php">Add Loan Customer</a></li>
+                <li class="nav-item"><a class="nav-link" href="loan-customers.php">Loan Customers</a></li>
+                <li class="nav-item"><a class="nav-link" href="add-employee.php">Add Employee Customers</a></li>
+                <li class="nav-item"><a class="nav-link" href="list_employees.php">List Employee</a></li>
+                <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+            </ul>
+        </nav>
 
             <!-- Main Content Area -->
             <div class="col-md-10 main-content">

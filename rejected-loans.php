@@ -65,7 +65,7 @@ $result = $conn->query($sql);
       <div class="p-3"><h4>Admin Panel</h4></div>
       <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="add-customer.html">Add Customer</a></li>
+          <li class="nav-item"><a class="nav-link" href="add-customer.php">Add Customer</a></li>
           <li class="nav-item"><a class="nav-link" href="add-loan-customer.html">Add Loan Customer</a></li>
           <li class="nav-item"><a class="nav-link" href="loan-customers.php">Approved Loans</a></li>
           <li class="nav-item"><a class="nav-link" href="pending-loans.php">Pending Loans</a></li>

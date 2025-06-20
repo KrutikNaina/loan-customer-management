@@ -1,6 +1,7 @@
 <?php
 include 'session.php'; // 🔒 Lock page before anything else
 
+
 // Database connection
 $servername = "localhost";
 $username = "root"; // Change if your MySQL username is different
@@ -51,3 +52,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 $conn->close();
 ?>
+

@@ -1,6 +1,8 @@
 <?php
-session_start();
+// session_start();
 include 'db.php';
+
+include 'session.php'; // 🔒 Lock page before anything else
 
 $msg = '';
 
@@ -56,7 +58,7 @@ $result = $conn->query("SELECT id, first_name, last_name, email, phone, username
                     <a class="nav-link" href="dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="add-customer.html">Add Customer</a>
+                    <a class="nav-link" href="add-customer.php">Add Customer</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="add-loan-customer.php">Add Loan Customer</a>

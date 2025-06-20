@@ -86,7 +86,7 @@ $result = $conn->query($sql);
       </div>
       <ul class="nav flex-column">
         <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link" href="add-customer.html">Add Customer</a></li>
+        <li class="nav-item"><a class="nav-link" href="add-customer.php">Add Customer</a></li>
         <li class="nav-item"><a class="nav-link" href="add-loan-customer.php">Add Loan Customer</a></li>
         <li class="nav-item"><a class="nav-link active" href="loan-customers.php">Loan Customers</a></li>
         <li class="nav-item"><a class="nav-link" href="add-employee.php">Add Employee Customers</a></li>

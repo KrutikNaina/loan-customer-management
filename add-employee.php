@@ -13,7 +13,7 @@ if (isset($_POST['add_employee'])) {
     $password   = password_hash($_POST['password'], PASSWORD_BCRYPT); // Encrypt password
 
     $stmt = $conn->prepare("INSERT INTO employees (first_name, last_name, email, phone, username, password) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $first_name, $last_name, $email, $phone, $username, $password);
+    $stmt->bind_param($first_name, $last_name, $email, $phone, $username, $password);
 
     if ($stmt->execute()) {
         $success = "Employee added successfully!";
@@ -92,7 +92,7 @@ if (isset($_POST['add_employee'])) {
                     <a class="nav-link" href="dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="add-customer.html">Add Customer</a>
+                    <a class="nav-link" href="add-customer.php">Add Customer</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="add-loan-customer.php">Add Loan Customer</a>
